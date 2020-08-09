@@ -26,12 +26,22 @@
     <ul>
       <%= form.fields_for :ingridients do |ingridients_form| %>
         <li>
-          <%= ingridients_form.check_box :_destroy %>
-          <%= ingridients_form.label :content %>
+          <%= ingridients_form.label " " %>
           <%= ingridients_form.text_field :content %>
+          <%= ingridients_form.check_box :_destroy %> Delete
         </li>
       <% end %>
     </ul>
+  Instructions:
+    <ol>
+    <%= form.fields_for :instructions do |instructions_form| %>
+      <li>
+        <%= instructions_form.label " " %>
+        <%= instructions_form.text_field :direction %>
+        <%= instructions_form.check_box :_destroy %> Delete
+      </li>
+    <% end %>
+  </ol>
 
   <p>
     <%= form.submit %>
