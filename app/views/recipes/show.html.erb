@@ -1,5 +1,10 @@
 <h1>Recipes</h1>
 <h2><%= @recipe.title %></h2>
 <p><%= @recipe.description %></p>
+<h3>Ingridients:</h3>
+  <% @recipe.ingridients.each do |ingridient|%>
+    <li><%= ingridient.content %></li>
+  <% end %>
+
 <%= link_to "Edit", edit_recipe_path(@recipe) %>
 <%= link_to "Back", root_path %>

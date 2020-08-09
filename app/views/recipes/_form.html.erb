@@ -13,18 +13,28 @@
 <% end %>
 
 <%= form_with model: @recipe, local: true do |form| %>
-<p>
-  <%= form.label :title %>
-  <%= form.text_field :title %>
-</p>
+  <p>
+    <%= form.label :title %>
+    <%= form.text_field :title %>
+  </p>
 
-<p>
-  <%= form.label :description %>
-  <%= form.text_area :description %>
-</p>
+  <p>
+    <%= form.label :description %>
+    <%= form.text_area :description %>
+  </p>
+  Ingridients:
+    <ul>
+      <%= form.fields_for :ingridients do |ingridients_form| %>
+        <li>
+          <%= ingridients_form.check_box :_destroy %>
+          <%= ingridients_form.label :content %>
+          <%= ingridients_form.text_field :content %>
+        </li>
+      <% end %>
+    </ul>
 
-<p>
-  <%= form.submit %>
-</p>
-<%= link_to "Back", recipes_path %>
+  <p>
+    <%= form.submit %>
+  </p>
+  <%= link_to "Back", recipes_path %>
 <% end %>

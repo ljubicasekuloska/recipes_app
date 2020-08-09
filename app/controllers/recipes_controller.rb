@@ -1,10 +1,12 @@
 class RecipesController < ApplicationController
+  NUM_FIELDS = 5
   def index
     @recipes = Recipe.all
   end
 
   def new
     @recipe = Recipe.new
+    NUM_FIELDS.times { @recipe.ingridients.build }
   end
 
   def show
@@ -22,6 +24,7 @@ class RecipesController < ApplicationController
 
   def edit
     @recipe = Recipe.find(params[:id])
+    (NUM_FIELDS - @recipe.ingridients.count).times { @recipe.ingridients.build }
   end
 
   def update
@@ -42,6 +45,6 @@ class RecipesController < ApplicationController
   private
 
   def recipe_params
-    params.require(:recipe).permit(:title, :description)
+    params.require(:recipe).permit(:title, :description,ingridients_attributes: [:id, :content, :_destroy])
   end
 end
