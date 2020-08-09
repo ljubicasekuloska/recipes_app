@@ -1,4 +1,6 @@
 class Recipe < ApplicationRecord
+  belongs_to :user
+  
   has_many :ingridients, dependent: :destroy
   accepts_nested_attributes_for :ingridients, allow_destroy: true
 
