@@ -1,50 +1,81 @@
 
-<% if @recipe.errors.any? %>
-  <div id="error_explanation">
-    <h2>
-      <%= pluralize(@recipe.errors.count, "error") %> prohibited this recipe from being saved:
-    </h2>
-    <ul>
-      <% @recipe.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-    </ul>
-  </div>
-<% end %>
-
-<%= form_with model: @recipe, local: true do |form| %>
-  <p>
-    <%= form.label :title %>
-    <%= form.text_field :title %>
-  </p>
-
-  <p>
-    <%= form.label :description %>
-    <%= form.text_area :description %>
-  </p>
-  Ingridients:
-    <ul>
-      <%= form.fields_for :ingridients do |ingridients_form| %>
-        <li>
-          <%= ingridients_form.label " " %>
-          <%= ingridients_form.text_field :content %>
-          <%= ingridients_form.check_box :_destroy %> Delete
-        </li>
-      <% end %>
-    </ul>
-  Instructions:
-    <ol>
-    <%= form.fields_for :instructions do |instructions_form| %>
-      <li>
-        <%= instructions_form.label " " %>
-        <%= instructions_form.text_field :direction %>
-        <%= instructions_form.check_box :_destroy %> Delete
-      </li>
+<div class="container">
+  <div class="columns is-multiline">
+    <% if @recipe.errors.any? %>
+      <div class="column is-6 is-offset-3">
+        <article class="message is-danger">
+          <div class="message-body">
+            <p><%= pluralize(@recipe.errors.count, "error") %> prohibited this recipe from being saved:
+            <br>
+            <p>
+              <% @recipe.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+              <% end %>
+            </p>
+          </div>
+        </article>
+      </div>
     <% end %>
-  </ol>
 
-  <p>
-    <%= form.submit %>
-  </p>
-  <%= link_to "Back", recipes_path %>
-<% end %>
+    <div class="column is-6 is-offset-3">
+      <div class="content is-size-3">
+        <h1><%= heading %></h1>
+      </div>
+    </div>
+
+    <div class="column is-6 is-offset-3">
+      <%= form_with model: @recipe, local: true do |form| %>
+        <div class="field">
+          <%= form.label :title, class: "label" %>
+          <div class="control">
+            <%= form.text_field :title, class: "input", placeholder: "Title" %>
+          </div>
+        </div>
+
+        <div class="field">
+          <%= form.label :description, class: "label"  %>
+          <div class="control">
+            <%= form.text_area :description, class: "textarea", placeholder: 'Recipe description' %>
+          </div>
+        </div>
+        <div class="content is-size-4">
+          Ingridients:
+        </div>
+          <%= form.fields_for :ingridients do |ingridients_form| %>
+            <div class="field">
+              <%= ingridients_form.label " ", class: "label" %>
+              <div class="control">
+                <%= ingridients_form.text_field :content, class: "input", placeholder: "Add ingridient" %>
+                <%= ingridients_form.check_box :_destroy %> Delete
+              </div>
+            </div>
+          <% end %>
+        <div class="content is-size-4">
+         Instructions:
+        </div>
+          <ol>
+          <%= form.fields_for :instructions do |instructions_form| %>
+            <li>
+              <div class="field">
+                <%= instructions_form.label " ", class: "label" %>
+                <div class="control">
+                  <%= instructions_form.text_field :direction, class: "input", placeholder: "Add instruction" %>
+                  <%= instructions_form.check_box :_destroy %> Delete
+                </div>
+              </div>
+            </li>
+          <% end %>
+        </ol>
+
+        <div class="field is-grouped">
+          <div class="control">
+            <%= form.submit submit, class: "button is-link" %>
+          </div>
+          <div class="control">
+            <%= link_to "Cancel", recipes_path, class: 'button is-link is-light' %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
