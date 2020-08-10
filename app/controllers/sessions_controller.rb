@@ -5,7 +5,8 @@ class SessionsController < ApplicationController
   def create
     user = User.find_by(email: params[:session][:email].downcase)
     if user&.authenticate(params[:session][:password])
-      #add code for log in
+      log_in(user)
+      redirect_to user
     else
       #add error message here
       render :new
@@ -13,5 +14,7 @@ class SessionsController < ApplicationController
   end
 
   def destroy
+    log_out
+    redirect_to root_path
   end
 end
