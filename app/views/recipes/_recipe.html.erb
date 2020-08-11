@@ -4,7 +4,10 @@
       <header class="card-header">
           <p class="card-header-title">
             <%= recipe.title %>
-          </p>
+          <p>
+          <div class="card-content">
+            Author:  <%= link_to (recipe.user.handle), user_path(recipe.user) %>
+          </div>
       </header>
     <% end %>
     <div class="card-content">
