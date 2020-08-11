@@ -1,4 +1,7 @@
 class RecipesController < ApplicationController
+  skip_before_action :require_login, only: [:index]
+  before_action :correct_user, only: [:edit, :update, :destroy]
+
   NUM_FIELDS = 5
   def index
     @recipes = Recipe.all
@@ -51,5 +54,13 @@ class RecipesController < ApplicationController
     params.require(:recipe).permit(:title, :description,
       ingridients_attributes: [:id, :content, :_destroy],
       instructions_attributes: [:id, :direction, :_destroy])
+  end
+
+  def correct_user
+    @recipe = Recipe.find(params[:id])
+    unless equal_with_current_user?(@recipe.user)
+      flash[:danger] = 'Wrong User'
+      redirect_to(root_path)
+    end
   end
 end
