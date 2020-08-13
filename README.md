@@ -1,24 +1,39 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is a Recipe app created with ruby on rails. You can create recipes that have a title and a description, as well as ingridients and instructions for preparing the recipe. Included is user creation and authentication.
 
-Things you may want to cover:
 
 * Ruby version
 
-* System dependencies
+  2.6.6
+
+* Rails version
+
+  6.0.3.2
 
 * Configuration
+```
+  bundle install
+  yarn install
+```
 
 * Database creation
+```
+  rails db:create
+  rails db:migrate
+  rails db:seed
+```
 
-* Database initialization
+* Run applicationn with
+```
+  rails s
+```
+  Then to view the application go to http://localhost:3000/ in your browser
 
-* How to run the test suite
 
-* Services (job queues, cache servers, search engines, etc.)
+* You can run the test suite with
+```
+  rspec
+```
 
-* Deployment instructions
 
-* ...
