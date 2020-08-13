@@ -29,7 +29,7 @@ RSpec.describe "Users" do
 
     expect(response.body).to include('Bube')
     expect(response.body).to include('bube@bube.com')
-    expect(response.body).to include('Sekuloska')
+    expect(response.body).to include('Bube Sekuloska')
   end
 
   it "renders New when User params are empty" do
