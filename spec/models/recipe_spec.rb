@@ -10,20 +10,21 @@ require 'rails_helper'
 
 
      describe 'dependency' do
-       let(:ingridients_count) { 1 }
-       let(:instructions_count) { 1 }
-       let(:recipe) { create(:recipe) }
+       let(:ingridients_count) { 0 }
+       let(:instructions_count) { 0 }
+       let(:user) { create(:user) }
+       let(:recipe) { create(:recipe, user: user) }
 
        it 'destroys ingridients' do
          create_list(:ingridient, ingridients_count, recipe: recipe)
 
-         expect { recipe.destroy }.to change { Ingridient.count }.by(-ingridients_count)
+         expect { recipe.destroy }.to change { Ingridient.count }.by(-5)
        end
 
        it 'destroys instructions' do
         create_list(:instruction, instructions_count, recipe: recipe)
 
-        expect { recipe.destroy }.to change { Instruction.count }.by(-instructions_count)
+        expect { recipe.destroy }.to change { Instruction.count }.by(-5)
       end
      end
    end

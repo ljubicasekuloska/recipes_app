@@ -97,7 +97,8 @@ RSpec.describe "Recipes" do
     end
 
     context "when no user is logged in" do
-      let(:recipe) { create(:recipe) }
+      let(:user) { create(:user) }
+      let(:recipe) { create(:recipe, user: user) }
 
       it 'redirect back to root path' do
         get "/recipes/#{recipe.id}/edit"
@@ -157,7 +158,8 @@ RSpec.describe "Recipes" do
     end
 
     context "when no user is logged in" do
-      let(:recipe) { create(:recipe) }
+      let(:user) { create(:user) }
+      let(:recipe) { create(:recipe, user: user) }
 
       it 'redirect back to root path' do
         delete "/recipes/#{recipe.id}"

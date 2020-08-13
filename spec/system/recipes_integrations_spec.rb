@@ -2,9 +2,9 @@ require 'rails_helper'
 
 RSpec.describe "RecipesInteraction" do
   let(:user) { create(:user) }
-  let(:recipe) { create(:recipe, user: user) }
-  let!(:instruction) { create(:instruction, recipe: recipe) }
-  let!(:ingridient) { create(:ingridient, recipe: recipe) }
+  let!(:recipe) { create(:recipe, user: user) }
+  # let!(:instruction) { create(:instruction, recipe: recipe) }
+  # let!(:ingridient) { create(:ingridient, recipe: recipe) }
 
   before do
     driven_by :rack_test

@@ -94,7 +94,8 @@ RSpec.describe "HomePages" do
   end
 
   context 'when a recipe is present' do
-    let!(:recipe) { create(:recipe, title: 'Testing with RSpec', description: 'Testing recipe description') }
+    let!(:user) { create(:user) }
+    let!(:recipe) { create(:recipe, title: 'Testing with RSpec', description: 'Testing recipe description', user: user) }
 
     before do
       visit root_path
