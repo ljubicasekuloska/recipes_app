@@ -18,3 +18,10 @@ User.all.each do |user|
     FactoryBot.create(:recipe, user: user)
   end
 end
+
+Recipe.all.each do |recipe|
+  5.times do
+    FactoryBot.create(:ingridient, recipe: recipe)
+    FactoryBot.create(:instruction, recipe: recipe)
+  end
+end

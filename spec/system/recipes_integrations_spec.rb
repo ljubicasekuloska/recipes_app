@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe "RecipesInteraction" do
   let(:user) { create(:user) }
   let!(:recipe) { create(:recipe, user: user) }
-  # let!(:instruction) { create(:instruction, recipe: recipe) }
-  # let!(:ingridient) { create(:ingridient, recipe: recipe) }
+  let!(:instruction) { create(:instruction, recipe: recipe) }
+  let!(:ingridient) { create(:ingridient, recipe: recipe) }
 
   before do
     driven_by :rack_test
@@ -47,6 +47,36 @@ RSpec.describe "RecipesInteraction" do
     end
   end
 
+  describe 'Creating an ingridient' do
+    it 'creates a new ingridient' do
+      content = "This is the Ingridient"
+      visit recipe_path(recipe)
+      click_on "Add Ingridient"
+
+      within('form') do
+        fill_in "ingridient_content", with: content
+      end
+
+      click_on "Save"
+      expect(page).to have_content(content)
+    end
+  end
+
+  describe 'Creating an instruction' do
+    it 'creates a new instruction' do
+      direction = "This is the Instruction"
+      visit recipe_path(recipe)
+      click_on "Add Instruction"
+
+      within('form') do
+        fill_in "instruction_direction", with: direction
+      end
+
+      click_on "Save"
+      expect(page).to have_content(direction)
+    end
+  end
+
   describe 'Editing a recipe' do
     it 'edits and shows the recipe' do
       title = 'New Title'
@@ -56,7 +86,7 @@ RSpec.describe "RecipesInteraction" do
 
       visit recipe_path(recipe)
 
-      click_on 'Edit'
+      click_on 'Edit Recipe'
 
       within('form') do
         fill_in "Title", with: title
@@ -80,6 +110,33 @@ RSpec.describe "RecipesInteraction" do
       expect(page).to have_content(title)
       expect(page).to have_content(description)
       expect(page).to have_content(content)
+      expect(page).to have_content(direction)
+    end
+
+    it 'edits an ingridient' do
+      content = "This is the New Ingridient"
+
+      visit recipe_path(recipe)
+      click_on('Edit', match: :first)
+
+      within('form') do
+        fill_in "ingridient_content", with: content
+        click_on 'Update'
+      end
+      expect(page).to have_content(content)
+    end
+
+    it 'edits an instruction' do
+      direction = "This is the New Direction"
+
+      visit recipe_path(recipe)
+
+      find('ol > li:first-child').click_on('Edit', match: :first)
+
+      within('form') do
+        fill_in "instruction_direction", with: direction
+        click_on 'Update'
+      end
       expect(page).to have_content(direction)
     end
   end

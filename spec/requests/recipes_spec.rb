@@ -1,6 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe "Recipes" do
+  let(:user) { create(:user) }
+  let(:recipe) { create(:recipe, user: user) }
+  let(:ingridient) { create(:ingridient,recipe: recipe)}
+  let(:instruction) { create(:instruction,recipe: recipe)}
+  
   describe 'Creating a recipe' do
     context "when no user is logged in" do
       it 'redirects back to login path' do
@@ -22,9 +27,6 @@ RSpec.describe "Recipes" do
 
   describe 'Editing a recipe' do
     context "when the recipe's user is the same as the logged in User" do
-      let(:user) { create(:user) }
-      let(:recipe) { create(:recipe, user: user) }
-
       it 'can edit the recipe' do
         get '/login'
         expect(response).to have_http_status(:ok)
@@ -60,12 +62,75 @@ RSpec.describe "Recipes" do
 
         expect(response.body).to include(recipe.title)
       end
+
+      it 'can edit the ingridient' do
+        get '/login'
+        expect(response).to have_http_status(:ok)
+
+        log_in(user)
+
+        follow_redirect!
+        expect(flash[:success]).to eq "Welcome #{user.handle}!"
+
+        get "/recipes/#{recipe.id}"
+        expect(response).to have_http_status(:ok)
+
+        get "/recipes/#{recipe.id}/ingridients/#{ingridient.id}/edit"
+        expect(response).to have_http_status(:ok)
+
+        patch_params = {
+          params: {
+            ingridient: {
+              content: "New ingridient"
+            }
+          }
+        }
+
+        patch recipe_ingridient_path(ingridient.recipe, ingridient), patch_params
+
+        expect(response).to have_http_status(:found)
+
+        expect(response).to redirect_to(assigns(:recipe))
+        follow_redirect!
+
+        expect(response.body).to include("New ingridient")
+      end
+
+      it 'can edit the instruction' do
+        get '/login'
+        expect(response).to have_http_status(:ok)
+
+        log_in(user)
+
+        follow_redirect!
+        expect(flash[:success]).to eq "Welcome #{user.handle}!"
+
+        get "/recipes/#{recipe.id}"
+        expect(response).to have_http_status(:ok)
+
+        get "/recipes/#{recipe.id}/instructions/#{instruction.id}/edit"
+        expect(response).to have_http_status(:ok)
+
+        patch_params = {
+          params: {
+            instruction: {
+              direction: "New instruction"
+            }
+          }
+        }
+
+        patch recipe_instruction_path(instruction.recipe, instruction), patch_params
+
+        expect(response).to have_http_status(:found)
+
+        expect(response).to redirect_to(assigns(:recipe))
+        follow_redirect!
+
+        expect(response.body).to include("New instruction")
+      end
     end
 
     context "when the recipes's user is different then the logged in User" do
-      let(:user) { create(:user) }
-      let(:recipe) { create(:recipe, user: user) }
-
       let(:login_user) { create(:user) }
 
       before { log_in(login_user) }
@@ -90,6 +155,50 @@ RSpec.describe "Recipes" do
         }
 
         patch "/recipes/#{recipe.id}", patch_params
+
+        expect(flash[:danger]).to eq 'Wrong User'
+        expect(response).to redirect_to(root_path)
+      end
+
+      it 'redirect back when GET edit for ingridient' do
+        get "/recipes/#{recipe.id}/ingridients/#{ingridient.id}/edit"
+
+        expect(flash[:danger]).to eq 'Wrong User'
+        expect(response).to redirect_to(root_path)
+      end
+
+      it 'redirect back when PATCH edit for ingridient' do
+        patch_params = {
+          params: {
+            ingridient: {
+              content: "New ingridient"
+            }
+          }
+        }
+
+        patch recipe_ingridient_path(ingridient.recipe, ingridient), patch_params
+
+        expect(flash[:danger]).to eq 'Wrong User'
+        expect(response).to redirect_to(root_path)
+      end
+
+      it 'redirect back when GET edit for instruction' do
+        get "/recipes/#{recipe.id}/instructions/#{instruction.id}/edit"
+
+        expect(flash[:danger]).to eq 'Wrong User'
+        expect(response).to redirect_to(root_path)
+      end
+
+      it 'redirect back when PATCH edit for instruction' do
+        patch_params = {
+          params: {
+            instruction: {
+              direction: "New instruction"
+            }
+          }
+        }
+
+        patch recipe_instruction_path(instruction.recipe, instruction), patch_params
 
         expect(flash[:danger]).to eq 'Wrong User'
         expect(response).to redirect_to(root_path)
@@ -129,9 +238,6 @@ RSpec.describe "Recipes" do
 
   describe 'Deleting a recipe' do
     context "when the recipe's user is the same as the logged in User" do
-      let(:user) { create(:user) }
-      let(:recipe) { create(:recipe, user: user) }
-
       it 'can delete the recipe' do
       log_in(user)
 
@@ -139,12 +245,25 @@ RSpec.describe "Recipes" do
 
       expect(response).to redirect_to(recipes_path)
       end
+
+      it 'can delete the ingridient' do
+        log_in(user)
+
+        delete "/recipes/#{recipe.id}/ingridients/#{ingridient.id}"
+
+        expect(response).to redirect_to(recipe_path(recipe))
+        end
+
+      it 'can delete the instruction' do
+        log_in(user)
+
+        delete "/recipes/#{recipe.id}/instructions/#{instruction.id}"
+
+        expect(response).to redirect_to(recipe_path(recipe))
+        end
     end
 
     context "when the recipes's user is different then the logged in User" do
-      let(:user) { create(:user) }
-      let(:recipe) { create(:recipe, user: user) }
-
       let(:login_user) { create(:user) }
 
       it 'redirect back to root path' do
@@ -155,12 +274,27 @@ RSpec.describe "Recipes" do
         expect(flash[:danger]).to eq 'Wrong User'
         expect(response).to redirect_to(root_path)
       end
+
+      it 'redirect back to root path when deleting ingridient' do
+        log_in(login_user)
+
+        delete "/recipes/#{recipe.id}/ingridients/#{ingridient.id}"
+
+        expect(flash[:danger]).to eq 'Wrong User'
+        expect(response).to redirect_to(root_path)
+      end
+
+      it 'redirect back to root path when deleting instruction' do
+        log_in(login_user)
+
+        delete "/recipes/#{recipe.id}/instructions/#{instruction.id}"
+
+        expect(flash[:danger]).to eq 'Wrong User'
+        expect(response).to redirect_to(root_path)
+      end
     end
 
     context "when no user is logged in" do
-      let(:user) { create(:user) }
-      let(:recipe) { create(:recipe, user: user) }
-
       it 'redirect back to root path' do
         delete "/recipes/#{recipe.id}"
 
