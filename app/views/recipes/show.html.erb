@@ -34,7 +34,12 @@
                       <h3>Istructions:</h3>
                       <ol>
                         <% @recipe.instructions.each do |instruction|%>
-                          <li><%= instruction.direction %></li>
+                          <li><%= instruction.direction %>
+                            <%= link_to 'Edit', edit_recipe_instruction_path(instruction.recipe, instruction), class:'button is-small is-link' %>
+                          </li>
+                        <% end %>
+                       <% if logged_in? %>
+                          <%= link_to "Add Instruction", new_recipe_instruction_path(@recipe), class:" button is-small is-link" %>
                         <% end %>
                       </ol>
 

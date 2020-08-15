@@ -3,6 +3,7 @@ Rails.application.routes.draw do
 
   resources :recipes do
     resources :ingridients
+    resources :instructions
   end
 
   get 'users/signup', to: 'users#new'
