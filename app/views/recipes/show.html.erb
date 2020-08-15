@@ -22,7 +22,12 @@
                       <h3>Ingridients:</h3>
                       <ul>
                         <% @recipe.ingridients.each do |ingridient|%>
-                          <li><%= ingridient.content %></li>
+                          <li><%= ingridient.content %>
+                            <%= link_to 'Edit', edit_recipe_ingridient_path(ingridient.recipe, ingridient), class:'button is-small is-link' %>
+                          </li>
+                        <% end %>
+                        <% if logged_in? %>
+                          <%= link_to "Add Ingridient", new_recipe_ingridient_path(@recipe), class:" button is-small is-link" %>
                         <% end %>
                       </ul>
 

@@ -45,6 +45,8 @@ class RecipesController < ApplicationController
     redirect_to recipes_path
   end
 
+
+
   private
 
   def recipe_params
@@ -52,6 +54,8 @@ class RecipesController < ApplicationController
       ingridients_attributes: [:id, :content, :_destroy],
       instructions_attributes: [:id, :direction, :_destroy])
   end
+
+
 
   def find_recipe
     @recipe = Recipe.find(params[:id])

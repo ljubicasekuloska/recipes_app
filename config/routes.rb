@@ -1,7 +1,10 @@
 Rails.application.routes.draw do
   root to: 'recipes#index'
 
-  resources :recipes
+  resources :recipes do
+    resources :ingridients
+  end
+
   get 'users/signup', to: 'users#new'
   resources :users, except: :new
 
