@@ -1,5 +1,6 @@
 class RecipesController < ApplicationController
   skip_before_action :require_login, only: [:index]
+  before_action :find_recipe, except: [:index, :new, :create]
   before_action :correct_user, only: [:edit, :update, :destroy]
 
   NUM_FIELDS = 5
@@ -14,7 +15,6 @@ class RecipesController < ApplicationController
   end
 
   def show
-    @recipe = Recipe.find(params[:id])
   end
 
   def create
@@ -28,13 +28,11 @@ class RecipesController < ApplicationController
   end
 
   def edit
-    @recipe = Recipe.find(params[:id])
     (NUM_FIELDS - @recipe.ingridients.count).times { @recipe.ingridients.build }
     (NUM_FIELDS - @recipe.instructions.count).times { @recipe.instructions.build }
   end
 
   def update
-    @recipe = Recipe.find(params[:id])
     if @recipe.update(recipe_params)
       redirect_to @recipe
     else
@@ -43,8 +41,7 @@ class RecipesController < ApplicationController
   end
 
   def destroy
-    recipe = Recipe.find(params[:id])
-    recipe.destroy
+    @recipe.destroy
     redirect_to recipes_path
   end
 
@@ -54,6 +51,10 @@ class RecipesController < ApplicationController
     params.require(:recipe).permit(:title, :description,
       ingridients_attributes: [:id, :content, :_destroy],
       instructions_attributes: [:id, :direction, :_destroy])
+  end
+
+  def find_recipe
+    @recipe = Recipe.find(params[:id])
   end
 
   def correct_user
