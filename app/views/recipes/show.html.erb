@@ -23,10 +23,12 @@
                       <ul>
                         <% @recipe.ingridients.each do |ingridient|%>
                           <li><%= ingridient.content %>
+                          <% if logged_in? && equal_with_current_user?(@recipe.user) %>
                             <%= link_to 'Edit', edit_recipe_ingridient_path(ingridient.recipe, ingridient), class:'button is-small is-link' %>
+                          <% end %>
                           </li>
                         <% end %>
-                        <% if logged_in? %>
+                        <% if logged_in? && equal_with_current_user?(@recipe.user)  %>
                           <%= link_to "Add Ingridient", new_recipe_ingridient_path(@recipe), class:" button is-small is-link" %>
                         <% end %>
                       </ul>
@@ -35,15 +37,18 @@
                       <ol>
                         <% @recipe.instructions.each do |instruction|%>
                           <li><%= instruction.direction %>
+                          <% if logged_in? && equal_with_current_user?(@recipe.user) %>
                             <%= link_to 'Edit', edit_recipe_instruction_path(instruction.recipe, instruction), class:'button is-small is-link' %>
+                          <% end %>
                           </li>
                         <% end %>
-                       <% if logged_in? %>
+                       <% if logged_in? && equal_with_current_user?(@recipe.user) %>
                           <%= link_to "Add Instruction", new_recipe_instruction_path(@recipe), class:" button is-small is-link" %>
                         <% end %>
                       </ol>
-
+                      <% if logged_in? && equal_with_current_user?(@recipe.user) %>
                       <%= link_to "Edit Recipe", edit_recipe_path(@recipe), class: 'button is-link' %>
+                      <% end %>
                       <%= link_to "Back", root_path, class: 'button is-link is-light' %>
                   </div>
                 </article>

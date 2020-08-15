@@ -1,5 +1,5 @@
 class RecipesController < ApplicationController
-  skip_before_action :require_login, only: [:index]
+  skip_before_action :require_login, only: [:index, :show]
   before_action :find_recipe, except: [:index, :new, :create]
   before_action :correct_user, only: [:edit, :update, :destroy]
 
