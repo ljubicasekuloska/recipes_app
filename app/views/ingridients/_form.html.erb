@@ -1,7 +1,7 @@
-<div class="container">
+<div class="container is-font-index">
    <div class="columns is-multiline">
      <div class="column is-6 is-offset-3">
-       <div class="content is-size-3">
+       <div class="content is-size-4">
          <h1><%= heading %></h1>
        </div>
      </div>
@@ -45,7 +45,7 @@
           <% if local_assigns[:show]  %>
             <%= link_to "Delete", recipe_ingridient_path(ingridient.recipe, ingridient), method: :delete,
                     data: { confirm: "Are you sure you want to delete this ingridient?" },
-                    class: "card-footer-item" %>
+                    class: "button is-link is-light"%>
           <% end %>
         </div>
       <% end %>
