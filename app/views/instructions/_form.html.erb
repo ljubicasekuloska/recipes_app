@@ -1,39 +1,36 @@
 <div class="container is-font-index">
-   <div class="columns is-multiline">
-     <div class="column is-6 is-offset-3">
-       <div class="content is-size-4">
+  <div class="columns is-multiline">
+    <div class="column is-6 is-offset-3">
+      <div class="content is-size-4">
          <h1><%= heading %></h1>
-       </div>
-     </div>
-
-     <% if instruction.errors.any? %>
-       <div class="column is-6 is-offset-3">
-         <article class="message is-danger">
-           <div class="message-body">
-             <p><%= pluralize(instruction.errors.count, "error") %> prohibited this instruction from being saved:</p>
-             <br>
-             <p>
-             <% instruction.errors.full_messages.each do |msg| %>
-               <li><%= msg %></li>
-             <% end %>
-             </p>
-           </div>
-         </article>
-       </div>
-     <% end %>
-
+      </div>
+    </div>
+    <% if instruction.errors.any? %>
+      <div class="column is-6 is-offset-3">
+        <article class="message is-danger">
+          <div class="message-body">
+            <p><%= pluralize(instruction.errors.count, "error") %> prohibited this instruction from being saved:</p>
+            <br>
+            <p>
+            <% instruction.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+            <% end %>
+            </p>
+          </div>
+        </article>
+      </div>
+    <% end %>
     <div class="column is-6 is-offset-3">
       <%= form_with model: [recipe, instruction], local: true do |form| %>
         <div class="content is-size-4">
-          Instructions:
+          Instruction:
         </div>
         <div class="field">
           <%= form.label " ", class: "label" %>
             <div class="control">
-              <%= form.text_field :direction, class: "input", placeholder: "Add instruction" %>
+              <%= form.text_area :direction, class: "textarea", placeholder: "Add instruction" %>
             </div>
         </div>
-
         <div class="field is-grouped">
           <div class="control">
             <%= form.submit submit, class: "button is-link" %>
@@ -50,3 +47,5 @@
         </div>
       <% end %>
     </div>
+  </div>
+</div>

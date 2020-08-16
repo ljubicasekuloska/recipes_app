@@ -1,7 +1,7 @@
 class RecipesController < ApplicationController
-  skip_before_action :require_login, only: [:index, :show]
-  before_action :find_recipe, except: [:index, :new, :create]
-  before_action :correct_user, only: [:edit, :update, :destroy]
+  skip_before_action :require_login, only: %i[index show]
+  before_action :find_recipe, except: %i[index new create]
+  before_action :correct_user, only: %i[edit update destroy]
 
   NUM_FIELDS = 5
   def index
@@ -15,6 +15,7 @@ class RecipesController < ApplicationController
   end
 
   def show
+    
   end
 
   def create
@@ -45,17 +46,13 @@ class RecipesController < ApplicationController
     redirect_to recipes_path
   end
 
-
-
   private
 
   def recipe_params
     params.require(:recipe).permit(:title, :description,
-      ingridients_attributes: [:id, :content, :_destroy],
-      instructions_attributes: [:id, :direction, :_destroy])
+                                   ingridients_attributes: %i[id content _destroy],
+                                   instructions_attributes: %i[id direction _destroy])
   end
-
-
 
   def find_recipe
     @recipe = Recipe.find(params[:id])

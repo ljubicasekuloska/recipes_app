@@ -24,21 +24,18 @@ RSpec.describe "RecipesInteraction" do
       within('form') do
         fill_in "Title", with: title
         fill_in "Description", with: description
-
         fill_in "recipe_ingridients_attributes_0_content", with: content
         fill_in "recipe_ingridients_attributes_1_content", with: content
         fill_in "recipe_ingridients_attributes_2_content", with: content
         fill_in "recipe_ingridients_attributes_3_content", with: content
         fill_in "recipe_ingridients_attributes_4_content", with: content
-
         fill_in "recipe_instructions_attributes_0_direction", with: direction
         fill_in "recipe_instructions_attributes_1_direction", with: direction
         fill_in "recipe_instructions_attributes_2_direction", with: direction
         fill_in "recipe_instructions_attributes_3_direction", with: direction
         fill_in "recipe_instructions_attributes_4_direction", with: direction
-
       end
-        click_on 'Save Recipe'
+      click_on 'Save Recipe'
 
       expect(page).to have_content(title)
       expect(page).to have_content(description)
@@ -91,21 +88,19 @@ RSpec.describe "RecipesInteraction" do
       within('form') do
         fill_in "Title", with: title
         fill_in "Description", with: description
-
         fill_in "recipe_ingridients_attributes_0_content", with: content
         fill_in "recipe_ingridients_attributes_1_content", with: content
         fill_in "recipe_ingridients_attributes_2_content", with: content
         fill_in "recipe_ingridients_attributes_3_content", with: content
         fill_in "recipe_ingridients_attributes_4_content", with: content
-
         fill_in "recipe_instructions_attributes_0_direction", with: direction
         fill_in "recipe_instructions_attributes_1_direction", with: direction
         fill_in "recipe_instructions_attributes_2_direction", with: direction
         fill_in "recipe_instructions_attributes_3_direction", with: direction
         fill_in "recipe_instructions_attributes_4_direction", with: direction
-
-        click_on 'Edit Recipe'
       end
+
+      click_on 'Edit Recipe'
 
       expect(page).to have_content(title)
       expect(page).to have_content(description)
@@ -121,8 +116,8 @@ RSpec.describe "RecipesInteraction" do
 
       within('form') do
         fill_in "ingridient_content", with: content
-        click_on 'Update'
       end
+      click_on 'Update'
       expect(page).to have_content(content)
     end
 
@@ -135,8 +130,8 @@ RSpec.describe "RecipesInteraction" do
 
       within('form') do
         fill_in "instruction_direction", with: direction
-        click_on 'Update'
       end
+      click_on 'Update'
       expect(page).to have_content(direction)
     end
   end
@@ -177,6 +172,5 @@ RSpec.describe "RecipesInteraction" do
 
       expect(page).to have_content('User recipes:')
     end
-
   end
 end

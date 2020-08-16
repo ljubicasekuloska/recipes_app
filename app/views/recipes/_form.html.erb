@@ -1,4 +1,3 @@
-
 <div class="container is-font-index">
   <div class="columns is-multiline">
     <% if @recipe.errors.any? %>
@@ -16,13 +15,11 @@
         </article>
       </div>
     <% end %>
-
     <div class="column is-6 is-offset-3">
       <div class="content is-size-3">
         <h1><%= heading %></h1>
       </div>
     </div>
-
     <div class="column is-6 is-offset-3">
       <%= form_with model: @recipe, local: true do |form| %>
         <div class="field">
@@ -31,7 +28,6 @@
             <%= form.text_field :title, class: "input", placeholder: "Title" %>
           </div>
         </div>
-
         <div class="field">
           <%= form.label :description, class: "label"  %>
           <div class="control">
@@ -51,7 +47,7 @@
             </div>
           <% end %>
         <div class="content is-size-4">
-         Instructions:
+          Instructions:
         </div>
           <ol>
           <%= form.fields_for :instructions do |instructions_form| %>
@@ -66,7 +62,6 @@
             </li>
           <% end %>
         </ol>
-
         <div class="field is-grouped">
           <div class="control">
             <%= form.submit submit, class: "button is-link" %>

@@ -1,14 +1,14 @@
 class InstructionsController < ApplicationController
   before_action :find_instruction, only: [:edit, :update, :destroy]
   before_action :correct_user, only: [:edit, :update]
+  before_action :find_recipe, only: [:new, :create]
+  before_action :find_recipe_from_instruction, only: [:edit, :update, :destroy]
 
   def new
-    @recipe = Recipe.find(params[:recipe_id])
     @instruction = @recipe.instructions.build
   end
 
   def create
-    @recipe = Recipe.find(params[:recipe_id])
     @instruction = @recipe.instructions.build(instruction_params)
     if @instruction.save
       redirect_to @recipe
@@ -18,11 +18,10 @@ class InstructionsController < ApplicationController
   end
 
   def edit
-    @recipe = @instruction.recipe
+
   end
 
   def update
-    @recipe = @instruction.recipe
     if @instruction.update(instruction_params)
       redirect_to @recipe
     else
@@ -31,10 +30,9 @@ class InstructionsController < ApplicationController
   end
 
   def destroy
-    recipe = @instruction.recipe
-    if equal_with_current_user?(recipe.user)
+    if equal_with_current_user?(@recipe.user)
       @instruction.destroy
-      redirect_to recipe
+      redirect_to @recipe
     else
       flash[:danger] = 'Wrong User'
       redirect_to(root_path)
@@ -49,6 +47,14 @@ class InstructionsController < ApplicationController
 
   def find_instruction
     @instruction = Instruction.find(params[:id])
+  end
+
+  def find_recipe
+    @recipe = Recipe.find(params[:recipe_id])
+  end
+
+  def find_recipe_from_instruction
+    @recipe = @instruction.recipe
   end
 
   def correct_user

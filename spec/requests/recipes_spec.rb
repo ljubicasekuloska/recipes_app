@@ -5,7 +5,7 @@ RSpec.describe "Recipes" do
   let(:recipe) { create(:recipe, user: user) }
   let(:ingridient) { create(:ingridient,recipe: recipe)}
   let(:instruction) { create(:instruction,recipe: recipe)}
-  
+
   describe 'Creating a recipe' do
     context "when no user is logged in" do
       it 'redirects back to login path' do
@@ -239,11 +239,11 @@ RSpec.describe "Recipes" do
   describe 'Deleting a recipe' do
     context "when the recipe's user is the same as the logged in User" do
       it 'can delete the recipe' do
-      log_in(user)
+        log_in(user)
 
-      delete "/recipes/#{recipe.id}"
+        delete "/recipes/#{recipe.id}"
 
-      expect(response).to redirect_to(recipes_path)
+        expect(response).to redirect_to(recipes_path)
       end
 
       it 'can delete the ingridient' do
